@@ -1,112 +1,78 @@
 # **dynasyze**
-A standalone server that dynamically resizes and crops image files
+A standalone media server that dynamically resizes and crops image files
 
 ## Installing
 
 Requires Node 5.0.0+
 
-    npm install dynasize
+    npm install -g dynasyze
     
 [GraphicsMagick](http://www.graphicsmagick.org/README.html) or [ImageMagick](http://www.imagemagick.org/script/binary-releases.php)
     
 ## Usage
 
-    const dynasyze = require('dynasyze')
+    dynasyze --config /path/to/config.json
     
-### dynasyze.Caches
-
-Caches are used to store the currently processing keys.  If a client makes a request to the server and the requested key appears in the cache, the client will wait until the image is done processing.
-
-#### `dynasyze.Caches.Memory({ expire_after = 15 } = {})`
-
-Cache is stored within the context of the application
-
-Parameters
--   `expire_after` Amount of seconds allow for image processing before resetting the connection.
-
-#### `dynasyze.Caches.Redis({ redis, expire_after = 15 } = {})`
-
-Cache is stored on REDIS server via provided client
-
-Parameters
--   `redis` Redis client (generated via package `redis`)
--   `expire_after` Amount of seconds allow for image processing before resetting the connection.
-
-### dynasyze.Stores
-
-Stores are the places from which data will be fetched and saved by this server.  Currently, the following options are supported for storage:
-
-#### `dynasyze.Stores.Local({ max_width, max_height, root = '', keep = true, inflate = false, imageMagick = false })`
-
-Images are stored on the local filesystem, within a centralized media directory.
-
-Parameters
--   `max_width` (optional) The maximum width allowed in a request
--   `max-height` (optional) The maximum height allowed in a request
--   `root` The root directory within which to fetch/store images.  **NOTE: root directory must contain directory `raw` for storing all original images**
--   `keep` If server should save the processed images and fetch it in the future instead of generating it every for request
--   `inflate` If the image should be inflated so it covers the requested dimensions (trims overflow content).
--   `imageMagick` If true, GM will use imageMagick instead of GM  
-
-#### `dynasyze.Stores.AWS({ ... , aws: { accessKeyID, secretAccessKey, region, bucket, prefix = '' } })`
+## Help
     
-Images are stored in the provided AWS S3 bucket and subdirectory
+    dynasyze --help
+    
+#### Example request
 
-Parameters
--   `max_width` (optional) The maximum width allowed in a request
--   `max-height` (optional) The maximum height allowed in a request
--   `keep` If server should save the processed images and fetch it in the future instead of generating it every for request
--   `inflate` If the image should be inflated so it covers the requested dimensions (trims overflow content).
--   `imageMagick` If true, GM will use imageMagick instead of GM 
+    http://localhost:3000/300x300/test.jpeg
 
--   `aws`
--   `aws.accessKeyID` AWS S3 Access Key ID
--   `aws.secretAccessKey`AWS S3 Secret Access Key
--   `aws.region` Region of S3 bucket 
--   `aws.bucket` Name of S3 bucket
--   `aws.prefix` Subdirectory to work within. **NOTE: the root directory must contain `raw` directory for storing all original images**
+## config.json
 
-### dynasyze.Server({ port = 3000, store = dynasyze.Stores.Local(), cache = dynasyze.Caches.Memory() })
+### Options
 
-The server which runs the image processor, powered with `express`, using the provided or default `Store` and `Cache`
+`port` - Local port on which to run the media server
+`whitelist` - If not empty, only size strings that appear within this array will be accepted.
+`aliases` - Map of custom directory names and their corresponding size string. (e.g. `{ "small": "300x300" }`)
 
-Parameters
--   `port` The port on which to run the server
--   `store` Either an initialized Store object, the parameters to create one (see above), or nothing the default local storage.
--   `cache` Either an initialized Cache object, the parameters to create one (see above), or nothing the default memory cache.
+`store` - Storage settings
+`store.max_width` - Maximum width able to be requested (`null` for no max)
+`store.max_height` - Maximum height able to be requested (`null` for no max)
+`store.root` - The root directory for media storage
+`store.raw` - The directory containing the original media files (`""` or `null` for same as root)
+`store.keep` - `true` to keep resized media, `false` to discard
+`store.inflate` - If `true` and the requested size is larger than the requested image, inflated the image to fill the container
+`store.aws` - Parameters for using AWS S3 for media storage.  If null, uses local filesystem
+`store.aws.accessKeyID` - AWS access key ID
+`store.aws.secretAccessKey` - AWS secret access key
+`store.aws.region` - Region of S3 Bucket
+`store.aws.bucket` - Bucket for media storage
 
-## Implementation
+`cache` - Cache settings, used to track processing images and allow subsequent calls to wait on the processing file
+`cache.expire_after` - Seconds to wait before timing out on a processing image
+`cache.redis` - Parameters for creating a redis client (see package [redis](https://www.npmjs.com/package/redis#rediscreateclient)).  If null, uses `Map` object
 
-In order to implement **Dynasyze**, `require` it within your code and start the server
-
-For example:
-```javascript
-const dynasyze = require('./index')
-const redis = require('redis')
-
-let Server = dynasyze.Server({
-    port: 4040,
-    // Automatically initialize a redis cache by provide a redis client
-    cache: {
-        redis: redis.createClient(...)
+### Default
+```json
+{
+    "port": 3000,
+    "whitelist": [ ],
+    "aliases": { },
+    "store": {
+        "max_width": null,
+        "max_height": null,
+        "root": "",
+        "raw": "raw",
+        "keep": true,
+        "inflate": false,
+        "imageMagick": false,
+        "aws": null
     },
-    // Create an AWS store using the provided class
-    store: dynasyze.Stores.AWS({
-        keep: true,
-        inflate: true,
-        aws: {
-            accessKeyID: 'TESTTESTTESTTESTTEST',
-            secretAccessKey: '121213434356565787879090912121232345+45',
-            bucket: 'com.test.images.raw',
-            prefix: 'images',
-            region: 'us-east-1'
-        }
-    })
-})
-
-// Start the server
-Server.start()
+    "cache": {
+        "expire_after": 15,
+        "redis": null
+    }
+}
 ```
 
+## Notes
+
+When requesting a size that is not proportional to the original image, the content is centered and cropped.  Currently, this gravity of the cropping is not optional.
+
 ## License
+
 [MIT](https://raw.githubusercontent.com/miketerpak/needs-params/master/LICENSE)

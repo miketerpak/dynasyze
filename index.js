@@ -4,6 +4,7 @@ const Server = require('./lib/server')
 const fs = require('fs')
 const path = require('path')
 const mkdirp = require('mkdirp')
+const redis = require('redis')
 
 /**
  * CLI Args:
@@ -86,5 +87,6 @@ function loadConfig(_path) {
 }
 
 function startServer(config) {
+    if (config.redis) config.redis = redis.createClient(config.redis)
     new Server(config).start()
 }
