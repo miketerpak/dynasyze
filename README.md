@@ -23,7 +23,7 @@ Requires Node 5.0.0+
 
 ## config.json
 
-### Options
+#### Options
 
 `port` - Local port on which to run the media server
 
@@ -61,7 +61,7 @@ Requires Node 5.0.0+
 
 `cache.redis` - Parameters for creating a redis client (see package [redis](https://www.npmjs.com/package/redis#rediscreateclient)).  If null, uses `Map` object
 
-### Default
+#### Default
 ```json
 {
     "port": 3000,
