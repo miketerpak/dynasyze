@@ -1,6 +1,6 @@
 {
   "name": "dynasyze",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Dynamic image resizing and cropping server",
   "main": "index.js",
   "scripts": {
