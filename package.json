@@ -4,7 +4,8 @@
   "description": "Dynamic image resizing and cropping server",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node test.js",
+    "install": ""
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   "bugs": {
     "url": "https://github.com/miketerpak/dynasyze/issues"
   },
+  "preferGlobal": true,
   "homepage": "https://github.com/miketerpak/dynasyze#readme",
   "dependencies": {
       "aws-sdk": "^2.3.2",

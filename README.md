@@ -1,6 +1,11 @@
 # **dynasyze**
 A standalone media server that dynamically resizes and crops image files
 
+## WARNING
+
+    THE PLATFORM IS CURRENTLY NONFUNCTIONAL VIA THE USAGE BELOW.  IT MUST BE INSTALLED LOCALLY AND RUN VIA "node /path/to/dynasyze/index.js" WITH
+    THE LOCAL CONFIG BEING USED/MODIFIED.  ALIAS SUPPORT FOR CLI ACCESS NEXT TO BE IMPLEMENTED
+
 ## Installing
 
 Requires Node 5.0.0+
