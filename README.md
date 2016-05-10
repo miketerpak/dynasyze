@@ -19,9 +19,23 @@ Requires Node 5.0.0+
 
     dynasyze --config /path/to/config.json
     
-#### Example request
+### Request Format
+
+    http://localhost:3000/[subdirectory]/:size/:key
+    
+You can exclude the `:size` field and only supply `[subdirectory]/:key` to fetch the original image
+
+Within `:size`, specifying only the width (e.g. `300`) or only the height (e.g. `x300`) will scale the image to the diven dimension
+
+#### Example requests
 
     http://localhost:3000/300x300/test.jpeg
+    
+    http://cdn.example.com/user/avatars/x150/avatar.png
+    
+    http://cdn.c2334.co/images/3000/banner.png
+    
+Excluding the 
     
 ## Help
     
@@ -36,6 +50,8 @@ Requires Node 5.0.0+
 `whitelist` - If not empty, only size strings that appear within this array will be accepted.
 
 `aliases` - Map of custom directory names and their corresponding size string. (e.g. `{ "small": "300x300" }`)
+
+`subdirectory` - Subdirectory to preceed the size and key fields (e.g. `http://localhost:3000/images/x300/`)
 
 `store` - Storage settings
 
@@ -65,7 +81,7 @@ Requires Node 5.0.0+
 
 `cache.expire_after` - Seconds to wait before timing out on a processing image
 
-`cache.redis` - Parameters for creating a redis client (see package [redis](https://www.npmjs.com/package/redis#rediscreateclient)).  If null, uses `Map` object
+`cache.redis` - Parameters for creating a redis client (see package [redis](https://www.npmjs.com/package/redis#options-object-properties)).  If null, uses `Map` object
 
 #### Default
 ```json
@@ -73,6 +89,7 @@ Requires Node 5.0.0+
     "port": 3000,
     "whitelist": [ ],
     "aliases": { },
+    "prefix": "",
     "store": {
         "max_width": null,
         "max_height": null,

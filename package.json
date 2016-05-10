@@ -1,11 +1,11 @@
 {
   "name": "dynasyze",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Dynamic image resizing and cropping server",
   "main": "index.js",
   "scripts": {
     "test": "node test.js",
-    "install": ""
+    "postinstall": ""
   },
   "repository": {
     "type": "git",
@@ -26,10 +26,14 @@
     "url": "https://github.com/miketerpak/dynasyze/issues"
   },
   "preferGlobal": true,
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "homepage": "https://github.com/miketerpak/dynasyze#readme",
   "dependencies": {
       "aws-sdk": "^2.3.2",
       "express": "^4.13.4",
+      "redis": "^2.6.0-2",
       "gm": "^1.22.0",
       "lodash": "^4.11.2",
       "mkdirp": "^0.5.1",

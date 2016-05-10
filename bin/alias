@@ -1,0 +1,13 @@
+'use strict'
+
+const os = require('os')
+
+switch (os.platform()) {
+    case 'linux':
+        break
+    case 'darwin':
+        break
+    case 'win32':
+    case 'win64':
+        break
+}
