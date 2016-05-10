@@ -25,7 +25,7 @@ Requires Node 5.0.0+
     
 You can exclude the `:size` field and only supply `[subdirectory]/:key` to fetch the original image
 
-Within `:size`, specifying only the width (e.g. `300`) or only the height (e.g. `x300`) will scale the image to the diven dimension
+Within `:size`, specifying only the width (e.g. `300`) or only the height (e.g. `x300`) will scale the image to the given dimension
 
 #### Example requests
 
@@ -34,8 +34,6 @@ Within `:size`, specifying only the width (e.g. `300`) or only the height (e.g. 
     http://cdn.example.com/user/avatars/x150/avatar.png
     
     http://cdn.c2334.co/images/3000/banner.png
-    
-Excluding the 
     
 ## Help
     
@@ -89,7 +87,7 @@ Excluding the
     "port": 3000,
     "whitelist": [ ],
     "aliases": { },
-    "prefix": "",
+    "subdirectory": "",
     "store": {
         "max_width": null,
         "max_height": null,
