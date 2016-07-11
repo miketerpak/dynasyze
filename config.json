@@ -2,16 +2,17 @@
     "port": 3000,
     "whitelist": [ ],
     "aliases": { },
-    "subdirectory": "",
+    "subdirectory": null,
+    "sources": null,
     "store": {
         "max_width": null,
         "max_height": null,
         "root": "",
         "raw": "raw",
         "keep": true,
-        "inflate": false,
+        "inflate": true,
         "imageMagick": false,
-        "aws": null 
+        "aws": null
     },
     "cache": {
         "expire_after": 15,
