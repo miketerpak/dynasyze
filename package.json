@@ -1,11 +1,10 @@
 {
   "name": "dynasyze",
-  "version": "0.1.0-r1",
+  "version": "0.1.0-r2",
   "description": "Dynamic image resizing and cropping server",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js",
-    "postinstall": "node startup.js"
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",

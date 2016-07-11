@@ -1,5 +1,7 @@
 'use strict'
 
+// TODO Implement when npm has permissions to create aliases
+
 const os = require('os')
 const fs = require('fs')
 const path = require('path')
@@ -25,7 +27,7 @@ function setupUnix(file_loc) {
 
 switch (os.platform()) {
     case 'linux':
-        setupUnix(path.join(HOME_DIR, '.bash_aliases'))
+        setupUnix('/etc/bash.bashrc')
         break
     case 'darwin':
         setupUnix(path.join(HOME_DIR, '.bash_profile'))
