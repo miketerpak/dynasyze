@@ -1,7 +1,5 @@
 'use strict'
 
-// TODO Implement when npm has permissions to create aliases
-
 const os = require('os')
 const fs = require('fs')
 const path = require('path')
